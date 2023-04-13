@@ -8,22 +8,32 @@
 import SwiftUI
 
 struct Guidance: View {
+    @State private var buttonSkip: Bool = true
     var body: some View {
         ZStack{
             Image("home")
                 .resizable()
                 .ignoresSafeArea()
-            Rectangle()
+            if buttonSkip{
+                Rectangle()
+                    .ignoresSafeArea()
+                    .foregroundColor(.gray)
+                    .opacity(0.7)
+                TabView{
+                    GuideOne()
+                    GuideTwo()
+                    GuideThree()
+                }
+                .tabViewStyle(.page)
                 .ignoresSafeArea()
-                .foregroundColor(.gray)
-                .opacity(0.7)
-            TabView{
-                GuideOne()
-                GuideTwo()
-                GuideThree()
+                VStack{
+                    Button("Skip") {
+                        buttonSkip.toggle()
+                    }
+                    Spacer()
+                }
             }
-            .tabViewStyle(.page)
-            .ignoresSafeArea()
+            
         }
     }
 }
