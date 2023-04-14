@@ -60,6 +60,10 @@ struct MainView: View {
             ["="]
         ]
     
+    func review(){
+        
+    }
+    
     func compliment (counter: Double) -> String {
         if 0.0..<3.0 ~= counter {
             return "Perfect!"
@@ -81,13 +85,13 @@ struct MainView: View {
     }
     
     func questionGenerating() {
-        if 25..<100 ~= level{
+        if 51..<100 ~= level{
             operand+=5
-        } else if 15..<25 ~= level{
+        } else if 26..<51 ~= level{
             operand+=4
-        } else if 5..<15 ~= level{
+        } else if 11..<26 ~= level{
             operand+=3
-        } else if 0..<5 ~= level{
+        } else if 0..<11 ~= level{
             operand+=2
         } else {
             operand+=6
@@ -241,7 +245,7 @@ struct MainView: View {
     }
 
     func timeGenerating(){
-        time  = 10.0 - Double(level)*0.01
+        time  = 5.0 - Double(level)*0.01
         time  = time - Double(operand)*0.01
         if time<0.5{
             time = 0.5
@@ -306,12 +310,17 @@ struct MainView: View {
     }
     
     func validationFailed(){
-        lives-=1
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.2, blendDuration: 0.5)){
-            wrongAnswer.toggle()
-        }
-        withAnimation(.easeInOut(duration: 0.3).delay(0.3)){
-            wrongAnswer.toggle()
+        if lives > 1{
+            lives-=1
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.2, blendDuration: 0.5)){
+                wrongAnswer.toggle()
+            }
+            withAnimation(.easeInOut(duration: 0.3).delay(0.3)){
+                wrongAnswer.toggle()
+            }
+        } else {
+            lives -= 1
+            // masukin nisa
         }
     }
     
@@ -691,6 +700,7 @@ struct MainView: View {
             if !skipped  {
 //                print("Hello")
                 self.counter += 0.2
+//                print(counter)
                 withAnimation {
                     if 120..<616-time ~= timePercentage {
     //                    if correctAnswer {
@@ -698,16 +708,27 @@ struct MainView: View {
     //                    } else {
     //                        timePercentage-=5
     //                    }
+//                        print(timePercentage)
+                        if timePercentage >= 608 {
+                            timePercentage = 120
+                            timeWarning.toggle()
+                            timesUp.toggle()
+                            if lives > 1 {
+                                lives -= 1
+                            } else {
+                                lives -= 1
+                                review()
+                            }
+                            withAnimation(.easeIn(duration: (495/time)*0.2)){
+                                timeWarning.toggle()
+                            }
+                            withAnimation(.linear(duration: 0.2).delay((495/time)*0.2)) {
+                                timesUp.toggle()
+                            }
+                        }
                     }
                 }
-                if timePercentage > 616 {
-                    timePercentage = 120
-                    if lives > 1 {
-                        lives -= 1
-                    } else {
-                        //
-                    }
-                }
+
     //            if 500..<615 ~= timePercentage {
     //                withAnimation {
     //                    timeWarning.toggle()
