@@ -10,14 +10,16 @@ import SwiftUI
 struct ContentView: View {
     @State var ChangeScreen: Bool = false
     var body: some View {
+        
+        return Group {
             if ChangeScreen{
-                Guidance(changeScreen: $ChangeScreen)
+                Guidance()
             }else{
                 ZStack {
                     Image("home")
                         .resizable()
                         .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                        .frame(width: 400.0, height: 500.0)
+                        .frame(width: 400.0, height: 500.0).position(x: 200.0, y: 370.0)
                     
                     
                     VStack{
@@ -57,6 +59,7 @@ struct ContentView: View {
         
         
     }
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

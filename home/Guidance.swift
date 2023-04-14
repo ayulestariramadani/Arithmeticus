@@ -10,7 +10,8 @@ import SwiftUI
 struct Guidance: View {
     @State private var buttonSkip: Bool = true
     @State private var exitModal: Bool = false
-    @Binding var changeScreen:Bool
+    
+    @State private var moveContent: Bool = false
     var body: some View {
         ZStack{
             MainView(skipped: $buttonSkip, exitModal: $exitModal)
@@ -49,8 +50,8 @@ struct Guidance: View {
                         })
                         
                         Button( action:{
-                            ContentView()
-                            
+                            moveContent.toggle()
+                            exitModal.toggle()
                         },
                                 
                         
@@ -68,6 +69,9 @@ struct Guidance: View {
                 }
             }
             
+            if moveContent{
+                ContentView()
+            }
             if buttonSkip{
                 Rectangle()
                     .ignoresSafeArea()
@@ -94,6 +98,6 @@ struct Guidance: View {
 
 struct Guidance_Previews: PreviewProvider {
     static var previews: some View {
-        Guidance(changeScreen: .constant(false))
+        Guidance()
     }
 }
