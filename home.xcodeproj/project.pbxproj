@@ -69,10 +69,10 @@
 				8E0E488829E7F44A00B4A6DC /* GuideOne.swift */,
 				8E0E488A29E7F44A00B4A6DC /* GuideThree.swift */,
 				8E0E488929E7F44A00B4A6DC /* GuideTwo.swift */,
-				8E7DE7A829D7CDFD006D077D /* Assets.xcassets */,
-				8E7DE7AA29D7CDFD006D077D /* Preview Content */,
 				5A4DAFAA29E86CC400D9FC4B /* MainView.swift */,
 				5A4DAFAC29E86E1600D9FC4B /* InfixtoPostfix.swift */,
+				8E7DE7A829D7CDFD006D077D /* Assets.xcassets */,
+				8E7DE7AA29D7CDFD006D077D /* Preview Content */,
 			);
 			path = home;
 			sourceTree = "<group>";

@@ -11,7 +11,8 @@ struct Guidance: View {
     @State private var buttonSkip: Bool = true
     var body: some View {
         ZStack{
-            MainView()
+            MainView(skipped: $buttonSkip)
+            
             if buttonSkip{
                 Rectangle()
                     .ignoresSafeArea()
