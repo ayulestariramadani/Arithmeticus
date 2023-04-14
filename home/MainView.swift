@@ -29,6 +29,7 @@ struct MainView: View {
     @State private var timePercentage: Double = 120 //120-615'=
     
     @Binding var skipped : Bool
+    @Binding var exitModal : Bool
     
     let timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State private var counter: Double = 0
@@ -430,7 +431,7 @@ struct MainView: View {
             .frame(width: 380.0, height: 25.0)
             HStack{
                 Button(action: {
-                    //
+                    exitModal.toggle()
                 }) {
                     Image(systemName: "chevron.left").font(.title2)
                         .frame(width: 40, height: 40)
@@ -750,6 +751,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(skipped: .constant(false))
+        MainView(skipped: .constant(false), exitModal: .constant(false))
     }
 }

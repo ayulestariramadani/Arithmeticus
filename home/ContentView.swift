@@ -10,10 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State var ChangeScreen: Bool = false
     var body: some View {
-        
-        return Group {
             if ChangeScreen{
-                Guidance()
+                Guidance(changeScreen: $ChangeScreen)
             }else{
                 ZStack {
                     Image("home")
@@ -59,12 +57,10 @@ struct ContentView: View {
         
         
     }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .buttonStyle(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Button Style@*/DefaultButtonStyle()/*@END_MENU_TOKEN@*/)
     }
 }
 
