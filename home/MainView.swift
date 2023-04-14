@@ -10,19 +10,25 @@ import SwiftUI
 struct MainView: View {
     @State private var restart: Bool = false
     
-    @State private var level: Int = 25
-    @State private var score: Int = 2204
+    @State private var level: Int = 1
+    @State private var score: Int = 0
     @State private var lives: Int = 3
+    
     @State private var answer: String = ""
     @State private var answerMinus: Bool = false
     @State private var correctAnswer: Bool = false
+    @State private var wrongAnswer: Bool = false
+    
     @State private var hintCounter: Int = 0
-    @State private var hintValue: Int = 5
+    @State private var hintValue: Int = 10
     @State private var hintAlert: Bool = false
+    
     @State private var timeWarning: Bool = false
     @State private var timesUp: Bool = false
     @State private var time: Double = 0.0
     @State private var timePercentage: Double = 120 //120-615'=
+    
+    @Binding var skipped : Bool
     
     let timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State private var counter: Double = 0
@@ -54,6 +60,25 @@ struct MainView: View {
             ["="]
         ]
     
+    func compliment (counter: Double) -> String {
+        if 0.0..<3.0 ~= counter {
+            return "Perfect!"
+        } else if 3.0..<5.0 ~= counter {
+            return "Amazing!"
+        } else if 5.0..<8.0 ~= counter {
+            return "Great Job!"
+        } else if 8.0..<12.0 ~= counter {
+            return "Nice Work!"
+        } else if 12.0..<20.0 ~= counter {
+            return "Good Effort!"
+        } else if 20.0..<35.0 ~= counter {
+            return "Not Bad!"
+        } else if 35.0..<60.1 ~= counter {
+            return "Nice Try!"
+        }else {
+            return "Improve More!"
+        }
+    }
     
     func questionGenerating() {
         if 25..<100 ~= level{
@@ -234,13 +259,59 @@ struct MainView: View {
         let expression = NSExpression(format: self.question)
         if let result = expression.expressionValue(with: nil, context: nil) as? Int {
             if Int(answer) == result {
-                answer = "benar dalam \(Int(counter)) detik"
-                score += 50 - Int(counter)
-                correctAnswer.toggle()
+                validationSucceed()
             } else {
-                answer += " -> salah -> \(result)"
-                lives-=1
+                validationFailed()
             }
+        }
+    }
+    
+    func validationSucceed(){
+        level += 1
+        score += 20 - Int(counter)
+        answer = ""
+        answerMinus = false
+        hintCounter = 0
+        hintAlert = false
+        timeWarning = false
+        timesUp = false
+        timePercentage = 120
+        counter = 0
+        operatorsAmount = 0
+        questions = []
+        coloredQuestion = ""
+        coloredQuestions = []
+        leveledOperator = []
+        question = ""
+        operand = 0
+        digit = 0
+        timesUp = false
+        timeWarning = false
+        
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.2, blendDuration: 0.5)){
+            correctAnswer.toggle()
+        }
+        questionGenerating()
+        coloredQuestion = self.questions.last ?? "error"
+        
+        withAnimation(.easeIn(duration: (495/time)*0.2)){
+            timeWarning.toggle()
+        }
+        withAnimation(.linear(duration: 0.2).delay((495/time)*0.2)) {
+            timesUp.toggle()
+        }
+        withAnimation(.easeInOut(duration: 0.2).delay(1)){
+            correctAnswer.toggle()
+        }
+    }
+    
+    func validationFailed(){
+        lives-=1
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.2, blendDuration: 0.5)){
+            wrongAnswer.toggle()
+        }
+        withAnimation(.easeInOut(duration: 0.3).delay(0.3)){
+            wrongAnswer.toggle()
         }
     }
     
@@ -451,8 +522,9 @@ struct MainView: View {
                         
                     }
                 }.position(x: 200,y: 19)
-                Text("\(Image(systemName: "moonphase.waxing.gibbous.inverse")) Arithmeticus").font(.system(.title3, design: .monospaced)).fontWeight(.semibold).foregroundColor(Color.white).padding(.all, 7.0).background(Color("complementary color")).clipShape(RoundedRectangle(cornerRadius: 50.0)).offset(x: -80,y: aritmatikus ? 140 : 190)
-                Text("Earth \(Image(systemName: "globe.asia.australia.fill"))").font(.system(.title3, design: .monospaced)).fontWeight(.semibold).foregroundColor(Color.white).padding(.all, 7.0).background(Color("main color")).clipShape(RoundedRectangle(cornerRadius: 50.0)).offset(x: 116,y: earth ? 140 : 190)
+                Text("\(Image(systemName: "moonphase.waxing.gibbous.inverse")) Arithmeticus").font(.system(.title3, design: .monospaced)).fontWeight(.semibold).foregroundColor(Color.white).padding(.all, 7.0).background(Color("complementary color")).clipShape(RoundedRectangle(cornerRadius: 50.0)).offset(x: -75 ,y: aritmatikus ? 130 : 190)
+                Text(compliment(counter: self.counter)).font(.system(.title3, design: .monospaced)).fontWeight(.black).foregroundColor(Color.white).padding(.all, 15.0).background(Color("secondary color")).clipShape(RoundedRectangle(cornerRadius: 50.0)).offset(x: 0,y: correctAnswer ? 100 : 190)
+                Text("Earth \(Image(systemName: "globe.asia.australia.fill"))").font(.system(.title3, design: .monospaced)).fontWeight(.semibold).foregroundColor(Color.white).padding(.all, 7.0).background(Color("main color")).clipShape(RoundedRectangle(cornerRadius: 50.0)).offset(x: 118,y: earth ? 130 : 190)
             }
             HStack{
                 ZStack{
@@ -465,7 +537,6 @@ struct MainView: View {
                                 .foregroundColor(Color("tertiary color"))
                                 .background(Color("main color"))
                                 .clipShape(Circle())
-                                .flipsForRightToLeftLayoutDirection(correctAnswer)
                         }
                     }
                     .padding(.all, 8.0)
@@ -524,7 +595,7 @@ struct MainView: View {
                 }) {
                     Image(systemName: "globe.asia.australia.fill").font(.title2)
                         .frame(width: 40, height: 40)
-                        .foregroundColor(Color("tertiary color"))
+                        .foregroundColor(Color.white)
                         .background(Color("main color"))
                         .clipShape(Circle())
                 }
@@ -533,13 +604,14 @@ struct MainView: View {
             .frame(width: 350.0, height: 60.0)
             .background(Color("tertiary color"))
             .clipShape(RoundedRectangle(cornerRadius: 50.0))
+            
             TextField(
                 "Answer",
                 text: $answer
-            ).keyboardType(.numberPad)
-            .multilineTextAlignment(.center)
+            ).keyboardType(.numberPad).disabled(true)
+                .multilineTextAlignment(.center)
             .disableAutocorrection(true)
-            .frame(width: 350.0, height: 60.0).overlay(RoundedRectangle(cornerRadius: 15).stroke(Color("complementary color"), lineWidth: 5))
+            .frame(width: 350.0, height: 60.0).overlay(RoundedRectangle(cornerRadius: 15).stroke(wrongAnswer ? Color.red: correctAnswer ? Color.green : Color("main color"), lineWidth: 5))
               .font(.system(.title, design: .monospaced))
               .fontWeight(.heavy)
               .lineLimit(nil).foregroundColor(Color("main color"))
@@ -616,33 +688,44 @@ struct MainView: View {
              
         }
         .onReceive(timer) { input in
-            self.counter += 0.2
-            withAnimation {
-                if 120..<615 ~= timePercentage {
-//                    if correctAnswer {
-                        timePercentage+=time
-//                    } else {
-//                        timePercentage-=5
-//                    }
+            if !skipped  {
+//                print("Hello")
+                self.counter += 0.2
+                withAnimation {
+                    if 120..<616-time ~= timePercentage {
+    //                    if correctAnswer {
+                            timePercentage+=time
+    //                    } else {
+    //                        timePercentage-=5
+    //                    }
+                    }
                 }
-                if timePercentage == 615{
-                    self.timer.upstream.connect().cancel()
+                if timePercentage > 616 {
+                    timePercentage = 120
+                    if lives > 1 {
+                        lives -= 1
+                    } else {
+                        //
+                    }
                 }
+    //            if 500..<615 ~= timePercentage {
+    //                withAnimation {
+    //                    timeWarning.toggle()
+    //                }
+    //            }
             }
-//            if 500..<615 ~= timePercentage {
-//                withAnimation {
-//                    timeWarning.toggle()
-//                }
-//            }
         }
         .onAppear{
             questionGenerating()
             coloredQuestion = self.questions.last ?? "error"
-            withAnimation(.easeIn(duration: (495/time)*0.2)){
-                timeWarning.toggle()
-            }
-            withAnimation(.linear(duration: 0.2).delay((495/time)*0.2)) {
-                timesUp.toggle()
+    
+            if !skipped{
+                withAnimation(.easeIn(duration: (495/time)*0.2)){
+                    timeWarning.toggle()
+                }
+                withAnimation(.linear(duration: 0.2).delay((495/time)*0.2)) {
+                    timesUp.toggle()
+                }
             }
         }
 //        .onAppear{
@@ -667,6 +750,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(skipped: .constant(false))
     }
 }
