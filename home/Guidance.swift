@@ -11,9 +11,7 @@ struct Guidance: View {
     @State private var buttonSkip: Bool = true
     var body: some View {
         ZStack{
-            Image("home")
-                .resizable()
-                .ignoresSafeArea()
+            MainView()
             if buttonSkip{
                 Rectangle()
                     .ignoresSafeArea()

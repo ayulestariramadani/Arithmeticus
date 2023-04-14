@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A4DAFAB29E86CC400D9FC4B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4DAFAA29E86CC400D9FC4B /* MainView.swift */; };
+		5A4DAFAD29E86E1700D9FC4B /* InfixtoPostfix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4DAFAC29E86E1600D9FC4B /* InfixtoPostfix.swift */; };
 		8E0E488B29E7F44A00B4A6DC /* GuideOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E488829E7F44A00B4A6DC /* GuideOne.swift */; };
 		8E0E488C29E7F44A00B4A6DC /* GuideTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E488929E7F44A00B4A6DC /* GuideTwo.swift */; };
 		8E0E488D29E7F44A00B4A6DC /* GuideThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0E488A29E7F44A00B4A6DC /* GuideThree.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A4DAFAA29E86CC400D9FC4B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		5A4DAFAC29E86E1600D9FC4B /* InfixtoPostfix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfixtoPostfix.swift; sourceTree = "<group>"; };
 		8E0E488829E7F44A00B4A6DC /* GuideOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideOne.swift; sourceTree = "<group>"; };
 		8E0E488929E7F44A00B4A6DC /* GuideTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideTwo.swift; sourceTree = "<group>"; };
 		8E0E488A29E7F44A00B4A6DC /* GuideThree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuideThree.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 				8E0E488929E7F44A00B4A6DC /* GuideTwo.swift */,
 				8E7DE7A829D7CDFD006D077D /* Assets.xcassets */,
 				8E7DE7AA29D7CDFD006D077D /* Preview Content */,
+				5A4DAFAA29E86CC400D9FC4B /* MainView.swift */,
+				5A4DAFAC29E86E1600D9FC4B /* InfixtoPostfix.swift */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -150,9 +156,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E7DE7A729D7CDFD006D077D /* ContentView.swift in Sources */,
+				5A4DAFAB29E86CC400D9FC4B /* MainView.swift in Sources */,
 				8E0E488F29E7FDC900B4A6DC /* Guidance.swift in Sources */,
 				8E0E488C29E7F44A00B4A6DC /* GuideTwo.swift in Sources */,
 				8E7DE7A529D7CDFD006D077D /* homeApp.swift in Sources */,
+				5A4DAFAD29E86E1700D9FC4B /* InfixtoPostfix.swift in Sources */,
 				8E0E488D29E7F44A00B4A6DC /* GuideThree.swift in Sources */,
 				8E0E488B29E7F44A00B4A6DC /* GuideOne.swift in Sources */,
 			);
