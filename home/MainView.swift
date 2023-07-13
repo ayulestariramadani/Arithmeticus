@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    
     @State private var restart: Bool = false
     
     @State private var level: Int = 1
@@ -30,6 +31,7 @@ struct MainView: View {
     
     @Binding var skipped : Bool
     @Binding var exitModal : Bool
+    @Binding var reviewModal : Bool
     
     let timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
     @State private var counter: Double = 0
@@ -718,7 +720,7 @@ struct MainView: View {
                                 lives -= 1
                             } else {
                                 lives -= 1
-                                review()
+                                reviewModal = true
                             }
                             withAnimation(.easeIn(duration: (495/time)*0.2)){
                                 timeWarning.toggle()
@@ -772,6 +774,6 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView(skipped: .constant(false), exitModal: .constant(false))
+        MainView(skipped: .constant(false), exitModal: .constant(false), reviewModal: .constant(false))
     }
 }
